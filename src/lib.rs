@@ -21,7 +21,7 @@ static TIE_MSG: &str = "Ha! It's a tie, my friend! I must say, it's quite a \
 static HELP_MSG: &str = "There are 3 options for you: \n\
                             1. By saying \"hit\", you can have another card\n\
                             2. By saying \"stand\", you will take no more cards, so I will reveal the result.\n\
-                            3. By saying \"status\", you can know what cards in your hand as well as my face-up card. \
+                            3. By saying \"status\", you can know what cards in your hand as well as my face-up card. \n\
                             4. By saying \"help\" or something else, you will see this help message.";
 static INTRO_MSG: &str = "Let me introduce the rule of this game for you:\n\
                             1. First I will give each of us two cards and one of mine is face-down;\n\

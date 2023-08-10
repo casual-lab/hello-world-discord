@@ -1,13 +1,17 @@
-# Getting started with a Discord bot on flows.network
+# Discord Bot for Blackjack
 
-This flow function acts as a Discord bot.
+It is a Discord bot that can play blackjack game with you.
 
-1. [Create a Discord bot](https://flows.network/blog/discord-chat-bot-guide) and note down its *bot token*.
-2. Add the bot to a Discord server via the bot's URL.
-3. Fork this repo into your own GitHub account.
-4. Go to [Flows.network](https://flows.network/flow/new) to create a new flow.
-5. Import the forked repo from your account into flows.network.
-6. In the *Advanced* tab, enter a setting named `discord_token` and puts the *bot token* as its value.
-7. Build and deploy.
-8. Send a private message to the bot in the Discord server it resides.
+You can invite it to your server by click this [link], and play with it by direct messaging.
 
+[link]: https://discord.com/api/oauth2/authorize?client_id=1138746375639683122&permissions=0&scope=bot
+
+After starting the game by sending "blackjack":
+
+![Alt text](assets/111.png) 
+
+Choose to "hit" or "stand" during the game:
+
+![Alt text](assets/498.png)
+
+![](assets/blackjack-discord-bot.gif)
