@@ -10,7 +10,7 @@ use serde_json::json;
 use store_flows::{get, set, del};
 use rand::{seq::SliceRandom, thread_rng};
 
-static WINNER_MSG: &str = "Haha! I can't believe it! Looks like I completely crushed you,\
+static WINNER_MSG: &str = "Haha! I can't believe it! Looks like I completely crushed you, \
                             Don't worry, though, it's all in good fun. Maybe next time you'll stand a \
                             chance against my unbeatable skills. Until then, enjoy the taste of defeat!";
 static LOSER_MSG: &str = "Alright, alright, you got me this time! \
@@ -21,7 +21,7 @@ static TIE_MSG: &str = "Ha! It's a tie, my friend! I must say, it's quite a \
 static HELP_MSG: &str = "There are 3 options for you: \n\
                             1. By saying \"hit\", you can have another card\n\
                             2. By saying \"stand\", you will take no more cards, so I will reveal the result.\n\
-                            3. By saying \"status\", you can know what cards in your hand as well as my face-up card.\
+                            3. By saying \"status\", you can know what cards in your hand as well as my face-up card. \
                             4. By saying \"help\" or something else, you will see this help message.";
 static INTRO_MSG: &str = "Let me introduce the rule of this game for you:\n\
                             1. First I will give each of us two cards and one of mine is face-down;\n\
@@ -34,6 +34,8 @@ static INTRO_MSG: &str = "Let me introduce the rule of this game for you:\n\
                             7. In other situations, it's a tie.";
 
 type Card = String;
+enum HitOutcome { BUST, CONTINUE }
+enum GameEnding { PlayerWin, DealerWin, Tie }
 
 #[derive(Serialize)]
 struct Game{
@@ -89,16 +91,16 @@ impl Game {
         Game { dealer_cards: Vec::new(), player_cards: Vec::new(), card2use: one_deck }
     }
 
-    pub fn hit(&mut self) -> Result<bool, &'static str>{
+    pub fn hit(&mut self) -> Result<HitOutcome, &'static str>{
         let card = self.pop_one_card()?;
         self.player_cards.push(card);
         if self.sum_of(&self.player_cards) > 21{
-            return Ok(true)
+            return Ok(HitOutcome::BUST)
         }
-        Ok(false)
+        Ok(HitOutcome::CONTINUE)
     }
 
-    pub fn stand(&mut self) -> Result<Option<bool>, &'static str>{
+    pub fn stand(&mut self) -> Result<GameEnding, &'static str>{
         let card = self.pop_one_card()?;
         self.dealer_cards.push(card);
         while self.sum_of(&self.dealer_cards) < 17{
@@ -109,11 +111,11 @@ impl Game {
         let dealer_score = self.sum_of(&self.dealer_cards);
         let player_score = self.sum_of(&self.player_cards);
         if player_score > 21 || player_score < dealer_score {
-            Ok(Some(false))
+            Ok(GameEnding::DealerWin)
         }else if dealer_score < player_score || dealer_score > 21{
-            Ok(Some(true))
+            Ok(GameEnding::PlayerWin)
         }else {
-            Ok(None)
+            Ok(GameEnding::Tie)
         }
     }
 
@@ -157,8 +159,8 @@ async fn handler(bot: &ProvidedBot, msg: Message) {
         let mut endding = false;
         let mut resp = match msg.content.to_lowercase().trim() {
             "hit" => match game.hit(){
-                    Ok(true) => String::from("Order received."),
-                    Ok(false) => {endding = true; String::from(WINNER_MSG)},
+                    Ok(HitOutcome::CONTINUE) => String::from("Order received."),
+                    Ok(HitOutcome::BUST) => {endding = true; String::from(WINNER_MSG)},
                     Err(e) => {
                         endding = true;
                         format!("There's something wrong and the game will be terminated. Possible Reason: {}", e)
@@ -167,9 +169,9 @@ async fn handler(bot: &ProvidedBot, msg: Message) {
             "stand" => {
                 endding = true; 
                 match game.stand() {
-                    Ok(Some(true)) => String::from(LOSER_MSG),
-                    Ok(Some(false)) => String::from(WINNER_MSG),
-                    Ok(None) => String::from(TIE_MSG),
+                    Ok(GameEnding::PlayerWin) => String::from(LOSER_MSG),
+                    Ok(GameEnding::DealerWin) => String::from(WINNER_MSG),
+                    Ok(GameEnding::Tie) => String::from(TIE_MSG),
                     Err(e) => format!("There's something wrong and the game will be terminated. Possible Reason: {}", e)
                 }
             },
