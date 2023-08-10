@@ -24,14 +24,15 @@ static HELP_MSG: &str = "There are 3 options for you: \n\
                             3. By saying \"status\", you can know what cards in your hand as well as my face-up card. \n\
                             4. By saying \"help\" or something else, you will see this help message.";
 static INTRO_MSG: &str = "Let me introduce the rule of this game for you:\n\
-                            1. First I will give each of us two cards and one of mine is face-down;\n\
-                            2. After that, you can take another card by saying \"hit\" for many times \
+                            1. Cards 1~10 is at their face value. Face card (J, Q, K) count as 10 points. The Card \"A\" counts 11 points. \n\
+                            2. First I will give each of us two cards and one of mine is face-down;\n\
+                            3. After that, you can take another card by saying \"hit\" for many times \
                             until you stop by saying \"stand\". \n\
-                            3. If your point is beyond 21 after a hit, you lose immediately\n\
-                            4. After you \"stand\", I will reveal the face-down card and take card until my point goes beyond 17. \n\
-                            5. If your point is less than 21 and greater than mine, or my point is greater than 21, you are the winner. \n\
-                            6. If my point is less than 21 and greater than yours, I win. (You will lose in step 3 if yours is greater than 21.)\n\
-                            7. In other situations, it's a tie.";
+                            4. If your point is beyond 21 after a hit, you lose immediately\n\
+                            5. After you \"stand\", I will reveal the face-down card and take card until my point goes beyond 17. \n\
+                            6. If your point is less than 21 and greater than mine, or my point is greater than 21, you are the winner. \n\
+                            7. If my point is less than 21 and greater than yours, I win. (You will lose in step 3 if yours is greater than 21.)\n\
+                            8. In other situations, it's a tie.";
 
 type Card = String;
 enum HitOutcome { BUST, CONTINUE }
