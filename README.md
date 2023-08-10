@@ -1,6 +1,17 @@
 # Discord Bot for Blackjack
 
+## Introduction
+
 It is a Discord bot that can play blackjack game with you.
+
+Thanks to the crate [store_flows], I can design & implement the state storage and transition of this game.  
+
+[store_flows]: https://docs.flows.network/docs/integrations/platform-sdk-features/store
+
+
+![Alt text](assets/states.png)
+
+## Demonstration
 
 You can invite it to your server by click this [link], and play with it by direct messaging.
 
