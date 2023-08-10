@@ -153,12 +153,17 @@ async fn handler(bot: &ProvidedBot, msg: Message) {
         return;
     }
 
-    if let Some(state_store) = get("bj"){
-        let mut game = Game{
-            player_cards: state_store["player_cards"].as_array().unwrap().clone().iter_mut().map(|v|String::from(v.as_str().unwrap())).collect(),
-            dealer_cards: state_store["dealer_cards"].as_array().unwrap().clone().iter_mut().map(|v|String::from(v.as_str().unwrap())).collect(),
-            card2use: state_store["card2use"].as_array().unwrap().clone().iter_mut().map(|v|String::from(v.as_str().unwrap())).collect()
+    if let Some(store) = get("bj"){
+        let player_cards: Vec<String> = serde_json::from_value(store["player_cards"].clone()).unwrap();
+        let dealer_cards: Vec<String> = serde_json::from_value(store["dealer_cards"].clone()).unwrap();
+        let card2use: Vec<String> = serde_json::from_value(store["card2use"].clone()).unwrap();
+
+        let mut game = Game {
+            player_cards,
+            dealer_cards,
+            card2use,
         };
+        
         let mut endding = false;
         let mut resp = match msg.content.to_lowercase().trim() {
             "hit" => match game.hit(){
