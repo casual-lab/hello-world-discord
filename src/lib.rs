@@ -178,10 +178,10 @@ async fn handler(bot: &ProvidedBot, msg: Message) {
                 }
             },
             "help" => String::from(HELP_MSG),
-            "status" => String::from(""),
+            "status" => String::from("So soon you forgot your card?"),
             _ => format!("I don't know what you mean. \n{}", String::from(HELP_MSG))
         };
-        resp = format!("{}\n Current Status: \n{}", resp, game.status());
+        resp = format!("{}\n\n Current Status: \n{}", resp, game.status());
         let channel_id = msg.channel_id;
     
         _ = discord.send_message(
@@ -203,7 +203,7 @@ async fn handler(bot: &ProvidedBot, msg: Message) {
         }
         let mut game = Game::new();
         let resp = match game.init_game(){
-            Ok(_) => format!("Ok, let's begin. \n{}\nFor now,\n{}\n{}", INTRO_MSG, game.status(), HELP_MSG),
+            Ok(_) => format!("Ok, let's begin. \n\n{}\n\nFor now,\n{}\n\n{}", INTRO_MSG, game.status(), HELP_MSG),
             Err(e) => format!("There's something wrong and the game will be terminated. Possible Reason: {}", e)
         };
         let channel_id = msg.channel_id;
