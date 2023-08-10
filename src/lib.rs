@@ -110,7 +110,9 @@ impl Game {
 
         let dealer_score = self.sum_of(&self.dealer_cards);
         let player_score = self.sum_of(&self.player_cards);
-        if player_score > 21 || player_score < dealer_score {
+        if player_score > 21 {
+            Ok(GameEnding::DealerWin)
+        }else if player_score < dealer_score && dealer_score <= 21 {
             Ok(GameEnding::DealerWin)
         }else if dealer_score < player_score || dealer_score > 21{
             Ok(GameEnding::PlayerWin)
@@ -213,9 +215,19 @@ async fn handler(bot: &ProvidedBot, msg: Message) {
             }),
         ).await;
 
-        set(
-            "bj", json!(game), None
-        );
+        if game.sum_of(&game.player_cards) == 21{ 
+            let channel_id = msg.channel_id;
+
+            _ = discord.send_message(
+                channel_id.into(),
+                &serde_json::json!({
+                    "content": String::from("I cannot believe it you got BLACKJACK!!!! You are so lucky this time! \n\
+                                            Do you want another try? You may not be so lucky next time.")  
+                }),
+            ).await;
+        }else{
+            set("bj", json!(game), None);
+        }
     }
     
 
