@@ -10,27 +10,27 @@ use serde_json::json;
 use store_flows::{get, set, del};
 use rand::{seq::SliceRandom, thread_rng};
 
-static WINNER_MSG: &str = "Haha! I can't believe it! Looks like I completely crushed you, 
-                            Don't worry, though, it's all in good fun. Maybe next time you'll stand a 
+static WINNER_MSG: &str = "Haha! I can't believe it! Looks like I completely crushed you,\
+                            Don't worry, though, it's all in good fun. Maybe next time you'll stand a \
                             chance against my unbeatable skills. Until then, enjoy the taste of defeat!";
-static LOSER_MSG: &str = "Alright, alright, you got me this time! 
-                            I'll begrudgingly admit it, my friend you beat me fair and square. 
+static LOSER_MSG: &str = "Alright, alright, you got me this time! \
+                            I'll begrudgingly admit it, my friend you beat me fair and square. \
                             I'll be back for a rematch soon. Consider yourself lucky, my friend!";
-static TIE_MSG: &str = "Ha! It's a tie, my friend! I must say, it's quite a 
+static TIE_MSG: &str = "Ha! It's a tie, my friend! I must say, it's quite a \
                             rare occurrence. Shall we go at it again? ";
-static HELP_MSG: &str = "There are 3 options for you: \n
-                            1. By saying \"hit\", you can have another card\n
-                            2. By saying \"stand\", you will take no more cards, so I will reveal the result.\n
-                            3. By saying \"status\", you can know what cards in your hand as well as my face-up card.
+static HELP_MSG: &str = "There are 3 options for you: \n\
+                            1. By saying \"hit\", you can have another card\n\
+                            2. By saying \"stand\", you will take no more cards, so I will reveal the result.\n\
+                            3. By saying \"status\", you can know what cards in your hand as well as my face-up card.\
                             4. By saying \"help\" or something else, you will see this help message.";
-static INTRO_MSG: &str = "Let me introduce the rule of this game for you:\n
-                            1. First I will give each of us two cards and one of mine is face-down;\n
-                            2. After that, you can take another card by saying \"hit\" for many times 
-                            until you stop by saying \"stand\". \n
-                            3. If your point is beyond 21 after a hit, you lose immediately\n
-                            4. After you \"stand\", I will reveal the face-down card and take card until my point goes beyond 17. \n
-                            5. If your point is less than 21 and greater than mine, or my point is greater than 21, you are the winner. \n
-                            6. If my point is less than 21 and greater than yours, I win. (You will lose in step 3 if yours is greater than 21.)\n
+static INTRO_MSG: &str = "Let me introduce the rule of this game for you:\n\
+                            1. First I will give each of us two cards and one of mine is face-down;\n\
+                            2. After that, you can take another card by saying \"hit\" for many times \
+                            until you stop by saying \"stand\". \n\
+                            3. If your point is beyond 21 after a hit, you lose immediately\n\
+                            4. After you \"stand\", I will reveal the face-down card and take card until my point goes beyond 17. \n\
+                            5. If your point is less than 21 and greater than mine, or my point is greater than 21, you are the winner. \n\
+                            6. If my point is less than 21 and greater than yours, I win. (You will lose in step 3 if yours is greater than 21.)\n\
                             7. In other situations, it's a tie.";
 
 type Card = String;
@@ -118,7 +118,7 @@ impl Game {
     }
 
     pub fn status(&self) -> String {
-        format!("Cards in your hand: {}. \n
+        format!("Cards in your hand: {}. \n\
                 Cards (face-up) in my hand: {}", 
                 self.player_cards.join(", "), self.dealer_cards.join(", "))
     }
