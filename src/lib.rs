@@ -118,9 +118,10 @@ impl Game {
     }
 
     pub fn status(&self) -> String {
-        format!("Cards in your hand: {}. \n\
-                Cards (face-up) in my hand: {}", 
-                self.player_cards.join(", "), self.dealer_cards.join(", "))
+        format!("Cards in your hand: {} (Total Point: {}). \n\
+                Cards (face-up) in my hand: {} (Total Point: {})", 
+                self.player_cards.join(", "), self.sum_of(&self.player_cards), 
+                self.dealer_cards.join(", "), self.sum_of(&self.dealer_cards))
     }
 
 }
@@ -173,7 +174,7 @@ async fn handler(bot: &ProvidedBot, msg: Message) {
                 }
             },
             "help" => String::from(HELP_MSG),
-            "status" => game.status(),
+            "status" => String::from(""),
             _ => format!("I don't know what you mean. \n{}", String::from(HELP_MSG))
         };
         resp = format!("{}\n Current Status: \n{}", resp, game.status());
